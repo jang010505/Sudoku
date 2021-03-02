@@ -50,9 +50,9 @@ def accept():           # 테이블 검사
     return True
 
 
-def initTable():
+def initTable(level):
     table = [[0]*9 for i in ramge(9)]
-    for i in range(random.randrange(10, 31)):
+    for i in range(random.randrange(10, 21)):
         randomPoint = random.randrange(81)
         now_i = randomPoint//9
         now_j = randomPoint % 9
@@ -64,3 +64,6 @@ def initTable():
             if accrpt() == False:
                 i -= 1
                 table[now_i][now_j] = 0
+
+
+initTable(1)
