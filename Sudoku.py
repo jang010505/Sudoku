@@ -1,6 +1,8 @@
 import pygame
 import random
 
+from pygame.locals import *
+
 table = [[0]*9 for i in range(9)]
 
 color = {
@@ -15,7 +17,12 @@ color = {
     "RED": (255, 167, 167)}
 
 
-def checkRow(I):        # 행 검사
+start_time = pygame.time.get_ticks()
+start_ground_time = pygame.time.get_ticks()
+end_time = pygame.time.get_ticks()
+
+
+def checkRow(I):
     checkList = [0]*10
     for i in range(9):
         if table[I][i] == 0:
@@ -26,7 +33,7 @@ def checkRow(I):        # 행 검사
     return True
 
 
-def checkCol(J):        # 열 검사
+def checkCol(J):
     checkList = [0]*10
     for i in range(9):
         if table[i][J] == 0:
@@ -37,7 +44,7 @@ def checkCol(J):        # 열 검사
     return True
 
 
-def checkSquare(I, J):      # 3X3 격자 검사
+def checkSquare(I, J):
     checkList = [0]*10
     for i in range(I*3, I*3+3):
         for j in range(J*3, J*3+3):
@@ -49,7 +56,7 @@ def checkSquare(I, J):      # 3X3 격자 검사
     return True
 
 
-def accept():           # 테이블 검사
+def accept():
     for i in range(9):
         if checkRow(i) == False:
             return False
@@ -128,3 +135,54 @@ def drawmain(self, index, check):
         pygame.draw.polygon(
             self, color["BLACK"], [[90, 505], [90+10*3**0.5, 515], [90+10*3**0.5, 495]])
     pygame.display.flip()
+
+
+def initgame():
+    pygame.init()
+    screen = pygame.display.set_mode((700, 700))
+    pygame.display.set_caption("SudokU")
+    global start_time
+    idx = 0
+    check = 0
+    run = True
+    start_time = pygame.time.get_ticks()
+    while run:
+        tmp_time = pygame.time.get_ticks()
+        if tmp_time-start_time >= 600:
+            start_time = tmp_time
+            check = abs(check-1)
+            drawmain(screen, idx, check)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if idx == 0:
+                        #startgame(screen)
+                        check = 1
+                        start_time = pygame.time.get_ticks()
+                        drawmain(screen, idx, check)
+                    elif idx == 1:
+                        screen.fill(color["PINK"])
+                        pygame.display.flip()
+                    elif idx == 2:
+                        screen.fill(color["LIGHTGREEN"])
+                        pygame.display.flip()
+                    elif idx == 3:
+                        run = False
+                elif event.key == pygame.K_UP:
+                    idx -= 1
+                    idx %= 4
+                    check = 1
+                    start_time = pygame.time.get_ticks()
+                    drawmain(screen, idx, check)
+                elif event.key == pygame.K_DOWN:
+                    idx += 1
+                    idx %= 4
+                    check = 1
+                    start_time = pygame.time.get_ticks()
+                    drawmain(screen, idx, check)
+
+
+initgame()
+pygame.quit()
