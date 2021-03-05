@@ -137,6 +137,10 @@ def drawmain(self, index, check):
     pygame.display.flip()
 
 
+def startGame(self):
+    
+
+
 def initgame():
     pygame.init()
     screen = pygame.display.set_mode((700, 700))
@@ -158,7 +162,7 @@ def initgame():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if idx == 0:
-                        #startgame(screen)
+                        startGame(screen)
                         check = 1
                         start_time = pygame.time.get_ticks()
                         drawmain(screen, idx, check)
@@ -167,7 +171,7 @@ def initgame():
                         pygame.display.flip()
                     elif idx == 2:
                         screen.fill(color["LIGHTGREEN"])
-                        pygame.display.flip()
+                        py  game.display.flip()
                     elif idx == 3:
                         run = False
                 elif event.key == pygame.K_UP:
