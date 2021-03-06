@@ -1,6 +1,5 @@
 import pygame
-import random
-
+import random  # asdhashfksad
 from pygame.locals import *
 
 table = [[0]*9 for i in range(9)]
@@ -15,7 +14,7 @@ color = {
     "PURPLE": (209, 178, 255),
     "SKYBLUE": (178, 235, 244),
     "LIGHTGREEN": (183, 240, 177),
-    "YELLOW": (252, 242, 158    ),
+    "YELLOW": (252, 242, 158),
     "ORANGE": (255, 193, 158),
     "RED": (255, 167, 167)}
 
@@ -145,6 +144,7 @@ def endGame(self):
         for j in range(9):
             table[i][j] = 0
 
+
 def stopGame(self):
     run = True
     while run:
@@ -154,6 +154,10 @@ def stopGame(self):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
+
+
+def drawwGameScreen(self):
+    `
 
 
 def startGame(self):
@@ -176,14 +180,13 @@ def startGame(self):
                         now_i -= 1
                 if event.key == pygame.K_DOWN:
                     if now_i < 8:
-                        now_i += 1                   
+                        now_i += 1
                 if event.key == pygame.K_LEFT:
                     if now_j > 0:
                         mow_j -= 1
                 if event.key == pygame.K_RIGHT:
                     if now_j < 8:
                         now_j += 1
-                    
 
 
 def initgame():
