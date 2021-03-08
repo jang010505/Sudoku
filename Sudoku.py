@@ -1,5 +1,6 @@
 import pygame
-import random  # asdhashfksad
+import random
+
 from pygame.locals import *
 
 table = [[0]*9 for i in range(9)]
@@ -67,27 +68,20 @@ def accept():
             return False
     for i in range(3):
         for j in range(3):
-            if checkSquare(i*3, j*3) == False:
+            if checkSquare(i, j) == False:
                 return False
     return True
+
+
+def makeTable():
+    a = 1
 
 
 def initTable(level):
     for i in range(9):
         for j in range(9):
             table[i][j] = 0
-    for i in range(random.randrange(10, 21)):
-        randomPoint = random.randrange(81)
-        now_i = randomPoint//9
-        now_j = randomPoint % 9
-        if table[now_i][now_j] != 0:
-            i -= 1
-        else:
-            randomNumber = random.randrange(1, 10)
-            table[now_i][now_j] = randomNumber
-            if accrpt() == False:
-                i -= 1
-                table[now_i][now_j] = 0
+    makeTable()
 
 
 def findcolor(tmp):
@@ -157,7 +151,22 @@ def stopGame(self):
 
 
 def drawwGameScreen(self):
-    `
+    self.fill(color["YELLOW"])
+    pygame.draw.rect(self, color["BLACK"], [50, 50, 450, 450], 3)
+    pygame.draw.line(self, color["BLACK"], [200, 50], [200, 500], 3)
+    pygame.draw.line(self, color["BLACK"], [350, 50], [350, 500], 3)
+    pygame.draw.line(self, color["BLACK"], [50, 200], [500, 200], 3)
+    pygame.draw.line(self, color["BLACK"], [50, 350], [500, 350], 3)
+    for i in range(100, 500, 50):
+        pygame.draw.line(self, color["BLACK"], [50, i], [500, i], 1)
+        pygame.draw.line(self, color["BLACK"], [i, 50], [i, 500], 1)
+    font = pygame.font.Font(None, 50)
+    for i in range(9):
+        for j in range(9):
+            if table[i][j] != 0:
+                tmp = font.render(str(table[i][j]), True, color["BLACK"])
+                self.blit(tmp, (65+j*50, 60+i*50))
+    pygame.display.flip()
 
 
 def startGame(self):
@@ -168,6 +177,7 @@ def startGame(self):
     global end_time
     global game_time
     game_time = pygame.time.get_ticks()
+    drawwGameScreen(self)
     while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -191,6 +201,7 @@ def startGame(self):
 
 def initgame():
     pygame.init()
+    initTable(1)
     screen = pygame.display.set_mode((700, 700))
     pygame.display.set_caption("SudokU")
     global start_time
@@ -219,7 +230,7 @@ def initgame():
                         pygame.display.flip()
                     elif idx == 2:
                         screen.fill(color["LIGHTGREEN"])
-                        py  game.display.flip()
+                        pygame.display.flip()
                     elif idx == 3:
                         run = False
                 elif event.key == pygame.K_UP:
