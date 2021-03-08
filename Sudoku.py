@@ -4,6 +4,11 @@ import random
 from pygame.locals import *
 
 table = [[0]*9 for i in range(9)]
+board = [[0]*9 for i in range(9)]
+row = [[0]*10 for i in range(10)]
+col = [[0]*10 for i in range(10)]
+diag = [[0]*10 for i in range(10)]
+flag = False
 
 now_i = 0
 now_j = 0
@@ -73,15 +78,65 @@ def accept():
     return True
 
 
-def makeTable():
-    a = 1
+def initSeq():
+    seq_diag = [0, 4, 8]
+    for offset in range(0, 9, 3):
+        seq = [i for i in range(1, 10)]
+        random.shuffle(seq)
+        for idx in range(9):
+            now_i = idx//3
+            now_j = idx % 3
+            row[offset+now_i][seq[idx]] = 1
+            col[offset+now_j][seq[idx]] = 1
+            k = seq_diag[offset//3]
+            diag[k][seq[idx]] = 1
+            board[offset+now_i][offset+now_j] = seq[idx]
 
 
-def initTable(level):
+def makeTable(k):
+    global flag
+    if flag:
+        return True
+    if k > 80:
+        for i in range(9):
+            for j in range(9):
+                table[i][j] = board[i][j]
+        flag = True
+        return True
+    now_i = k//9
+    now_j = k % 9
+    start_num = random.randint(1, 9)
+    if board[now_i][now_j]:
+        makeTable(k+1)
+    for m in range(1, 10):
+        m = 1+(m+start_num) % 9
+        d = (now_i//3)*3+now_j//3
+        if row[now_i][m] == 0 and row[now_j][m] == 0 and diag[d][m] == 0:
+            row[now_i][m] = 1
+            col[now_j][m] = 1
+            diag[d][m] = 1
+            board[now_i][now_j] = m
+            makeTable(k+1)
+            row[now_i][m] = 0
+            col[now_j][m] = 0
+            diag[d][m] = 0
+            board[now_i][now_j] = 0
+
+
+def initTable():
+    global flag
     for i in range(9):
         for j in range(9):
             table[i][j] = 0
-    makeTable()
+            board[i][j] = 0
+    for i in range(10):
+        for j in range(10):
+            row[i][j] = 0
+            col[i][j] = 0
+            diag[i][j] = 0
+    flag = False
+    initSeq()
+    makeTable(0)
 
 
 def findcolor(tmp):
@@ -177,6 +232,7 @@ def startGame(self):
     global end_time
     global game_time
     game_time = pygame.time.get_ticks()
+    initTable()
     drawwGameScreen(self)
     while run:
         for event in pygame.event.get():
@@ -201,7 +257,6 @@ def startGame(self):
 
 def initgame():
     pygame.init()
-    initTable(1)
     screen = pygame.display.set_mode((700, 700))
     pygame.display.set_caption("SudokU")
     global start_time
