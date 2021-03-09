@@ -111,7 +111,7 @@ def makeTable(k):
     for m in range(1, 10):
         m = 1+(m+start_num) % 9
         d = (now_i//3)*3+now_j//3
-        if row[now_i][m] == 0 and row[now_j][m] == 0 and diag[d][m] == 0:
+        if row[now_i][m] == 0 and col[now_j][m] == 0 and diag[d][m] == 0:
             row[now_i][m] = 1
             col[now_j][m] = 1
             diag[d][m] = 1
