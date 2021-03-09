@@ -123,7 +123,7 @@ def makeTable(k):
             board[now_i][now_j] = 0
 
 
-def initTable():
+def initTable(level):
     global flag
     for i in range(9):
         for j in range(9):
@@ -137,6 +137,21 @@ def initTable():
     flag = False
     initSeq()
     makeTable(0)
+    count = 0
+    if level == 1:
+        count = 10
+    elif level == 2:
+        count = 30
+    elif level == 3:
+        count = 50
+    count = random.randrange(count, count+11)
+    order = [i for i in range(81)]
+    random.shuffle(order)
+    for i in range(count):
+        idx = order.pop()
+        now_i = idx//9
+        now_j = idx % 9
+        table[now_i][now_j] = 0
 
 
 def findcolor(tmp):
@@ -232,7 +247,7 @@ def startGame(self):
     global end_time
     global game_time
     game_time = pygame.time.get_ticks()
-    initTable()
+    initTable(1)
     drawwGameScreen(self)
     while run:
         for event in pygame.event.get():
