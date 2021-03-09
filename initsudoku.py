@@ -1,5 +1,6 @@
 # 스도쿠 판을 랜덤으로 생성하는 코드
-
+# https://semtax.tistory.com/50
+# 이 게시글을 참고 함.
 
 import random
 
