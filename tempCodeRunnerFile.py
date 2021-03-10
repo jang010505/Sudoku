@@ -268,7 +268,7 @@ def startGame(self):
                     drawwGameScreen(self)
                 if event.key == pygame.K_LEFT:
                     if now_y > 0:
-                        now_y -= 1
+                        mow_y -= 1
                     drawwGameScreen(self)
                 if event.key == pygame.K_RIGHT:
                     if now_y < 8:
