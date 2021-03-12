@@ -3,11 +3,14 @@ import random
 
 from pygame.locals import *
 
+# 1234
+
 table = [[0]*9 for i in range(9)]
 board = [[0]*9 for i in range(9)]
 row = [[0]*10 for i in range(10)]
 col = [[0]*10 for i in range(10)]
 diag = [[0]*10 for i in range(10)]
+check = [[1]*9 for i in range(9)]
 flag = False
 
 now_x = 0
@@ -142,6 +145,7 @@ def initTable(level):
         now_i = idx//9
         now_j = idx % 9
         table[now_i][now_j] = 0
+        check[now_i][now_j] = 0
 
 
 def findcolor(tmp):
@@ -199,6 +203,7 @@ def endGame(self):
         for j in range(9):
             table[i][j] = 0
             board[i][j] = 0
+            check[i][j] = 1
     for i in range(10):
         for j in range(10):
             row[i][j] = 0
@@ -274,6 +279,8 @@ def startGame(self):
                     if now_y < 8:
                         now_y += 1
                     drawwGameScreen(self)
+                if event.key == pygame.K_9:
+                    table[now_x][now_y] = 9
 
 
 def initgame():
