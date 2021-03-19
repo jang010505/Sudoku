@@ -3,8 +3,6 @@ import random
 
 from pygame.locals import *
 
-# 1234
-
 table = [[0]*9 for i in range(9)]
 board = [[0]*9 for i in range(9)]
 row = [[0]*10 for i in range(10)]
@@ -246,7 +244,7 @@ def drawwGameScreen(self):
     pygame.display.flip()
 
 
-def startGame(self):
+def startGame(self, level):
     run = True
     global now_x
     global now_y
@@ -254,7 +252,7 @@ def startGame(self):
     global end_time
     global game_time
     game_time = pygame.time.get_ticks()
-    initTable(1)
+    initTable(level)
     drawwGameScreen(self)
     while run:
         for event in pygame.event.get():
@@ -283,6 +281,42 @@ def startGame(self):
                     table[now_x][now_y] = 9
 
 
+def selectlevel(self):
+    run = True
+    drawselectlevel(self)
+    check = 1
+    start_time = pygame.time.get_ticks()
+    while run:
+        tmp_time = pygame.time.get_ticks()
+        if tmp_time-start_time >= 600:
+            start_time = tmp_time
+            check = abs(check-1)
+            drawselectlevel(screen, idx, check)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if idx == 0:
+                        return 0
+                    elif idx == 1:
+                        return 1
+                    elif idx == 2:
+                        return 2
+                elif event.key == pygame.K_UP:
+                    idx -= 1
+                    idx %= 3
+                    check = 1
+                    start_time = pygame.time.get_ticks()
+                    drawmain(screen, idx, check)
+                elif event.key == pygame.K_DOWN:
+                    idx += 1
+                    idx %= 3
+                    check = 1
+                    start_time = pygame.time.get_ticks()
+                    drawselectlevel(screen, idx, check)
+
+
 def initgame():
     pygame.init()
     screen = pygame.display.set_mode((700, 700))
@@ -304,7 +338,8 @@ def initgame():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if idx == 0:
-                        startGame(screen)
+                        level = selectlevel(screen)
+                        startGame(screen, level)
                         check = 1
                         start_time = pygame.time.get_ticks()
                         drawmain(screen, idx, check)
